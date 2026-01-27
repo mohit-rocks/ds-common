@@ -18,6 +18,7 @@ use PreviousNext\IdsTools\Scenario\Scenarios;
   'actionUrl',
   'input',
   'button',
+  'name',
   new Slots\Slot('containerAttributes', fillValueFromThemeObjectClassPropertyWhenEmpty: 'containerAttributes'),
 ])]
 #[Scenarios([SearchFormScenarios::class])]
@@ -32,14 +33,17 @@ class SearchForm implements CommonObjectInterface {
   final private function __construct(
     private string $actionUrl,
     public Attribute $containerAttributes,
+    public string $name,
   ) {
   }
 
   public static function create(
     string $actionUrl,
+    string $name = 'search-form',
   ): static {
     return static::factoryCreate(
       actionUrl: $actionUrl,
+      name: $name,
       containerAttributes: new Attribute(),
     );
   }
@@ -57,7 +61,8 @@ class SearchForm implements CommonObjectInterface {
         iconStart: $icon,
       ))
       ->set('containerAttributes', $this->containerAttributes)
-      ->set('actionUrl', $this->actionUrl);
+      ->set('actionUrl', $this->actionUrl)
+      ->set('name', $this->name);
   }
 
 }

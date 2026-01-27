@@ -7,7 +7,7 @@ namespace PreviousNext\Ds\Common\Component\SearchForm;
 final class SearchFormScenarios {
 
   final public static function searchForm(): SearchForm {
-    return SearchForm::create('http://example.com/search');
+    return SearchForm::create('http://example.com/search', 'query');
   }
 
 }
