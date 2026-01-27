@@ -44,7 +44,6 @@ class HeroBanner extends AbstractCollection implements Utility\CommonObjectInter
     public bool $highlight,
     public Modifier\ModifierBag $modifiers,
     public Attribute $containerAttributes,
-    public ?string $links_title,
   ) {
     parent::__construct();
   }
@@ -56,7 +55,6 @@ class HeroBanner extends AbstractCollection implements Utility\CommonObjectInter
     Atom\Button\Button|Atom\Link\Link|null $link = NULL,
     ?Component\Media\Image\Image $image = NULL,
     ?Component\LinkList\LinkList $links = NULL,
-    ?string $links_title = NULL,
   ): static {
     // Auto-builders might provide an object with no links, this is fine.
     // @todo move to external validation.
@@ -73,7 +71,6 @@ class HeroBanner extends AbstractCollection implements Utility\CommonObjectInter
       highlight: FALSE,
       modifiers: new Modifier\ModifierBag(HeroBannerModifierInterface::class),
       containerAttributes: new Attribute(),
-      links_title: $links_title,
     );
   }
 
