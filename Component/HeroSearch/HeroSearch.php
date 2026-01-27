@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PreviousNext\Ds\Common\Component\HeroBanner;
+namespace PreviousNext\Ds\Common\Component\HeroSearch;
 
 use Drupal\Core\Template\Attribute;
 use Pinto\Attribute\ObjectType;
@@ -16,35 +16,31 @@ use Ramsey\Collection\AbstractCollection;
 /**
  * @extends AbstractCollection<mixed>
  */
-#[Scenarios([HeroBannerScenarios::class])]
+#[Scenarios([HeroSearchScenarios::class])]
 #[ObjectType\Slots(slots: [
   'title',
-  'content',
   'subtitle',
-  'link',
   'image',
   'links',
-  'highlight',
+  'search',
   'modifiers',
   'containerAttributes',
 ])]
-class HeroBanner extends AbstractCollection implements Utility\CommonObjectInterface {
+class HeroSearch extends AbstractCollection implements Utility\CommonObjectInterface {
 
   use Utility\ObjectTrait;
 
   /**
-   * @phpstan-param \PreviousNext\Ds\Common\Modifier\ModifierBag<HeroBannerModifierInterface> $modifiers
+   * @phpstan-param \PreviousNext\Ds\Common\Modifier\ModifierBag<HeroSearchModifierInterface> $modifiers
    */
   final private function __construct(
     public Atom\Heading\Heading $title,
     public ?string $subtitle,
-    public Atom\Button\Button|Atom\Link\Link|null $link,
     public ?Component\Media\Image\Image $image,
     public ?Component\LinkList\LinkList $links,
-    public bool $highlight,
+    public ?Component\SearchForm\SearchForm $search,
     public Modifier\ModifierBag $modifiers,
     public Attribute $containerAttributes,
-    public ?string $links_title,
   ) {
     parent::__construct();
   }
@@ -52,28 +48,18 @@ class HeroBanner extends AbstractCollection implements Utility\CommonObjectInter
   public static function create(
     string $title,
     ?string $subtitle = NULL,
-    // Maybe these should be their own variant of this object...
-    Atom\Button\Button|Atom\Link\Link|null $link = NULL,
     ?Component\Media\Image\Image $image = NULL,
     ?Component\LinkList\LinkList $links = NULL,
-    ?string $links_title = NULL,
+    ?Component\SearchForm\SearchForm $search = NULL,
   ): static {
-    // Auto-builders might provide an object with no links, this is fine.
-    // @todo move to external validation.
-    if ($image !== NULL && $links !== NULL && $links->count() > 0) {
-      throw new \LogicException(\sprintf('A `%s` object cannot have both $image and $links populated.', static::class));
-    }
-
     return static::factoryCreate(
       title: Atom\Heading\Heading::create($title, Atom\Heading\HeadingLevel::One),
       subtitle: $subtitle,
-      link: $link,
       image: $image,
       links: $links,
-      highlight: FALSE,
-      modifiers: new Modifier\ModifierBag(HeroBannerModifierInterface::class),
+      search: $search,
+      modifiers: new Modifier\ModifierBag(HeroSearchModifierInterface::class),
       containerAttributes: new Attribute(),
-      links_title: $links_title,
     );
   }
 
