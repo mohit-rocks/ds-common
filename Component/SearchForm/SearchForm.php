@@ -31,7 +31,7 @@ class SearchForm implements CommonObjectInterface {
    *   https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form#action.
    */
   final private function __construct(
-    private string $actionUrl,
+    public string $actionUrl,
     public Attribute $containerAttributes,
     public string $name,
   ) {
