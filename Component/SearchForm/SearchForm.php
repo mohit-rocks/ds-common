@@ -17,7 +17,6 @@ use PreviousNext\IdsTools\Scenario\Scenarios;
   'actionUrl',
   'id',
   'searchFieldName',
-  'name',
 ])]
 #[Scenarios([SearchFormScenarios::class])]
 class SearchForm implements CommonObjectInterface {
@@ -33,20 +32,17 @@ class SearchForm implements CommonObjectInterface {
     public string $actionUrl,
     public string $searchFieldName,
     public Attribute $containerAttributes,
-    public string $name,
   ) {
   }
 
   public static function create(
     string $actionUrl,
     string $searchFieldName = 'q',
-    string $name = 'search-form',
   ): static {
     return static::factoryCreate(
       id: Id::create(),
       actionUrl: $actionUrl,
       searchFieldName: $searchFieldName,
-      name: $name,
       containerAttributes: new Attribute(),
     );
   }
@@ -56,8 +52,7 @@ class SearchForm implements CommonObjectInterface {
       ->set('id', (string) $this->id)
       ->set('searchFieldName', $this->searchFieldName)
       ->set('containerAttributes', $this->containerAttributes)
-      ->set('actionUrl', $this->actionUrl)
-      ->set('name', $this->name);
+      ->set('actionUrl', $this->actionUrl);
   }
 
 }
