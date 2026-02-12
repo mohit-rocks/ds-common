@@ -19,6 +19,7 @@ use Ramsey\Collection\AbstractCollection;
 #[Scenarios([HeroSearchScenarios::class])]
 #[ObjectType\Slots(slots: [
   'title',
+  'content',
   'subtitle',
   'image',
   'links',
@@ -38,7 +39,7 @@ class HeroSearch extends AbstractCollection implements Utility\CommonObjectInter
     public ?string $subtitle,
     public ?Component\Media\Image\Image $image,
     public ?Component\LinkList\LinkList $links,
-    public ?Component\SearchForm\SearchForm $search,
+    public ?Component\SearchForm\SearchForm $searchForm,
     public Modifier\ModifierBag $modifiers,
     public Attribute $containerAttributes,
   ) {
@@ -46,18 +47,18 @@ class HeroSearch extends AbstractCollection implements Utility\CommonObjectInter
   }
 
   public static function create(
-    string $title,
+    Atom\Heading\Heading|string $title,
     ?string $subtitle = NULL,
     ?Component\Media\Image\Image $image = NULL,
     ?Component\LinkList\LinkList $links = NULL,
-    ?Component\SearchForm\SearchForm $search = NULL,
+    Component\SearchForm\SearchForm|string|null $searchFormOrActionUrl = NULL,
   ): static {
     return static::factoryCreate(
-      title: Atom\Heading\Heading::create($title, Atom\Heading\HeadingLevel::One),
+      title: \is_string($title) ? Atom\Heading\Heading::create($title, Atom\Heading\HeadingLevel::One) : $title,
       subtitle: $subtitle,
       image: $image,
       links: $links,
-      search: $search,
+      searchForm: \is_string($searchFormOrActionUrl) ? Component\SearchForm\SearchForm::create($searchFormOrActionUrl) : $searchFormOrActionUrl,
       modifiers: new Modifier\ModifierBag(HeroSearchModifierInterface::class),
       containerAttributes: new Attribute(),
     );
