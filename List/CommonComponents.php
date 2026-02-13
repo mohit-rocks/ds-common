@@ -99,6 +99,9 @@ enum CommonComponents implements ObjectListInterface {
   #[Definition(Component\UtilityList\UtilityList::class)]
   case UtilityList;
 
+  #[Definition(Component\ContentBlock\ContentBlock::class)]
+  case ContentBlock;
+
   public function templateDirectory(): string {
     return \sprintf('@%s/%s', Twig::NAMESPACE, $this->resolveSubDirectory());
   }
