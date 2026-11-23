@@ -49,14 +49,23 @@ class Steps extends AbstractSet implements Utility\CommonObjectInterface {
     return '\\PreviousNext\\Ds\\Common\\Component\\Steps\\Step\\Step';
   }
 
-  public static function create(): static {
+  /**
+   * @phpstan-param \WeakReference<Step\Step>|StepRange|null $to
+   * @phpstan-param \WeakReference<Step\Step>|StepRange|null $from
+   */
+  public static function create(
+    bool $hasBackgroundFill = FALSE,
+    bool $hasTextCounters = FALSE,
+    \WeakReference|StepRange|null $to = NULL,
+    \WeakReference|StepRange|null $from = NULL,
+  ): static {
     return static::factoryCreate(
-      FALSE,
-      FALSE,
+      hasBackgroundFill: $hasBackgroundFill,
+      hasTextCounters: $hasTextCounters,
       containerAttributes: new Attribute(),
       modifiers: new Modifier\ModifierBag(StepsModifierInterface::class),
-      to: NULL,
-      from: NULL,
+      to: $to,
+      from: $from,
     );
   }
 
@@ -65,8 +74,7 @@ class Steps extends AbstractSet implements Utility\CommonObjectInterface {
 
     return $build
       ->set('hasBackgroundFill', $this->hasBackgroundFill)
-      ->set('hasTextCounters', $this->hasTextCounters)
-      ->set('items', $this->map(static fn (Step\Step $item): mixed => $item())->toArray());
+      ->set('hasTextCounters', $this->hasTextCounters);
   }
 
   /**
